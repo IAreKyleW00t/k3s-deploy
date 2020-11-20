@@ -1,0 +1,16 @@
+---
+# Raspberry Pi settings
+raspi_memory_split: 16
+raspi_wifi_country: us
+raspi_keyboard_layout: us
+raspi_timezone: America/New_York
+raspi_locale: en_US.UTF-8
+
+# Authorized SSH keys
+raspi_ssh_pubkeys: []
+#  - ssh-rsa AAAAB3NzaC...
+#  - ssh-ed25519 AAAAC3NzaC1...
+
+# Password for 'pi' user
+# See: https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
+raspi_user_password: ''

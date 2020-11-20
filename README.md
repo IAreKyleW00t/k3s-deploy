@@ -5,6 +5,10 @@ additional software/configuration that is necessary.
 
 ## Usage
 
+You'll first need to install the `community.kubernetes` ansible package:
+
+    ansible-galaxy collection install community.kubernetes
+
 Assuming the [configuration](#configuration) listed below, run the following Ansible commands to configure systems:
 
     ansible-playbook -i inventories/hosts server.yaml
@@ -17,6 +21,7 @@ Assuming the [configuration](#configuration) listed below, run the following Ans
 ```
 /inventories
   /group_vars
+    all.yaml
     server.yaml
     worker.yaml
   /host_vars
@@ -24,6 +29,7 @@ Assuming the [configuration](#configuration) listed below, run the following Ans
   hosts
 /roles
 ...
+raspi.yaml
 server.yaml
 worker.yaml
 ```
@@ -49,6 +55,19 @@ rancher_letsencrypt_email: "{{ certmanager_email }}" # same as cert-manager
 k3s_mode: worker
 k3s_server_url: 'https://<rancher_url>:6443'
 k3s_server_token: 'OUTPUT_FROM_SERVER_PLAYBOOK'
+```
+
+### Raspi
+
+```yaml
+raspi_memory_split: 16
+raspi_wifi_country: us
+raspi_keyboard_layout: us
+raspi_timezone: America/New_York
+raspi_locale: en_US.UTF-8
+
+# See: https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
+raspi_user_password: '$6$rounds=100000$r0MIyXUGOp3lC0Qn$HqKRFHO1Epgx0KUdVzDI9dxOSvKAraFPClIBHBI/OnmC1wmvbfYwVRDIzr2t5zq5dHX3jv2sTzCKx2lRaBy1A0'
 ```
 
 ## Contributing

@@ -1,0 +1,20 @@
+---
+- import_tasks: raspi_config.yml
+  tags:
+    - common
+    - raspi
+
+- name: Set pi user password
+  user:
+    name: pi
+    password: '{{ raspi_user_password }}'
+  become: yes
+  when: raspi_user_password | length
+  tags:
+    - common
+    - passwd
+
+- import_tasks: log2ram.yml
+  tags:
+    - common
+    - log2ram

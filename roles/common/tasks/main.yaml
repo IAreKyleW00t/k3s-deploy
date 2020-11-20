@@ -8,13 +8,24 @@
     - hostname
     - common
 
+- name: Add SSH keys to user
+  authorized_key:
+    user: "{{ ansible_user }}"
+    key: "{{ item }}"
+    state: present
+  with_items: "{{ authorized_ssh_keys }}"
+  when: authorized_ssh_keys | length
+  tags:
+    - ssh
+    - common
+
 - name: Update apt cache
   apt:
     update_cache: yes
   become: yes
   tags: common
 
-- name: Install System packages for Ansible modules
+- name: Install required Ansible System packages
   apt:
     name:
       - python3
@@ -27,7 +38,7 @@
     - python
     - common
 
-- name: Install OpenShift Python package for Ansible modules
+- name: Install OpenShift Python package for Ansible
   pip:
     name: openshift
     umask: "0022"
@@ -68,3 +79,12 @@
   become: yes
   when: apt_update.changed or hostname_update.changed
   tags: common
+
+- name: Remove packages that are no longer needed
+  apt:
+    autoremove: yes
+    autoclean: yes
+  become: yes
+  tags:
+    - common
+    - cleanup

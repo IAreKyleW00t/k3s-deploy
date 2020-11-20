@@ -1,0 +1,5 @@
+---
+# Fist do: ssh-copy -i ~/.ssh/id_ed25519 pi@1.2.3.4
+- hosts: raspi
+  roles:
+    - raspi
