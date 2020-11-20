@@ -30,7 +30,7 @@
   when: certmanager.changed
   tags: cert-manager
 
-- import_tasks: cluster-issuers.yml
+- import_tasks: cluster-issuers.yaml
   tags:
     - cluster-issuers
     - cert-manager

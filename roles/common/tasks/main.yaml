@@ -36,7 +36,7 @@
     - python
     - common
 
-- include_tasks: mounts.yml
+- include_tasks: mounts.yaml
   when: additional_mounts | length
   tags:
     - mounts

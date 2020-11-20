@@ -1,0 +1,28 @@
+---
+- name: Create Let's Encrypt ClusterIssuers
+  community.kubernetes.k8s:
+    state: present
+    definition:
+      apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      metadata:
+        name: "letsencrypt-{{ item.env }}"
+      spec:
+        acme:
+          email: "{{ certmanager_email }}"
+          server: "{{ item.server }}"
+          privateKeySecretRef:
+            name: "letsencrypt-{{ item.env }}"
+          solvers:
+          - http01:
+              ingress:
+                class: "{{ certmanager_ingress_class }}"
+  environment:
+    KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+  become: yes
+  with_items:
+  - env: production
+    server: https://acme-v02.api.letsencrypt.org/directory
+  - env: staging
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+  tags: cluster-issuers

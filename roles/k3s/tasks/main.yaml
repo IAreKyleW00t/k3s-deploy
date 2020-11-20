@@ -10,7 +10,7 @@
   when: k3s_mode == "worker"
   tags: k3s
 
-- include_tasks: server.yml
+- include_tasks: server.yaml
   when: k3s_mode == "server"
   tags: k3s
 
