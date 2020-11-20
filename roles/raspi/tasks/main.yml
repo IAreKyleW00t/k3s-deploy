@@ -7,12 +7,23 @@
 - name: Set pi user password
   user:
     name: pi
-    password: '{{ raspi_user_password }}'
+    password: "{{ raspi_user_password }}"
   become: yes
   when: raspi_user_password | length
   tags:
     - common
     - passwd
+
+- name: Enable cgroup in kernel
+  lineinfile:
+    dest: /boot/cmdline.txt
+    regexp: "^(.+rootwait)"
+    line: '\1 cgroup_memory=1 cgroup_enable=memory'
+    backrefs: yes
+  become: yes
+  tags:
+    - cgroup
+    - common
 
 - import_tasks: log2ram.yml
   tags:
