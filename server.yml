@@ -1,0 +1,8 @@
+---
+- hosts: server
+  roles:
+    - common
+    - k3s
+    - helm
+    - cert-manager
+    - rancher

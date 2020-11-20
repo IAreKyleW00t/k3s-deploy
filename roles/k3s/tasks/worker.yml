@@ -1,0 +1,8 @@
+---
+- name: Install k3s as worker
+  environment:
+    K3S_URL: "{{ k3s_server_url }}"
+    K3S_TOKEN: "{{ k3s_server_token }}"
+  shell: sh /tmp/k3s-installer.sh
+  become: yes
+  tags: k3s

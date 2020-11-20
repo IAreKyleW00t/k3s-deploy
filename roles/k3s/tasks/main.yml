@@ -1,0 +1,21 @@
+---
+- name: Download k3s installer
+  get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s-installer.sh
+    force: yes
+  tags: k3s
+
+- include_tasks: worker.yaml
+  when: k3s_mode == "worker"
+  tags: k3s
+
+- include_tasks: server.yml
+  when: k3s_mode == "server"
+  tags: k3s
+
+- name: Cleanup k3s installer
+  file:
+    path: /tmp/k3s-installer.sh
+    state: absent
+  tags: k3s

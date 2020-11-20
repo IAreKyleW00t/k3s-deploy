@@ -1,0 +1,39 @@
+---
+- name: Install Rancher Helm repository
+  community.kubernetes.helm_repository:
+    name: rancher-latest
+    repo_url: https://releases.rancher.com/server-charts/latest
+  become: yes
+  tags: rancher
+
+- name: Deploy Rancher Chart
+  community.kubernetes.helm:
+    name: rancher
+    chart_ref: rancher-latest/rancher
+    chart_version: "{{ rancher_version }}"
+    update_repo_cache: yes
+    release_namespace: "{{ rancher_namespace }}"
+    create_namespace: yes
+    values:
+      hostname: "{{ rancher_hostname }}"
+      ingress:
+        tls:
+          source: "{{ rancher_tls_source }}"
+      letsEncrypt:
+        environment: "{{ rancher_letsencrypt_env }}"
+        email: "{{ rancher_letsencrypt_email }}"
+        ingress:
+          class: "{{ rancher_ingress_class }}"
+    wait: yes
+  environment:
+    KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+  become: yes
+  register: rancher
+  tags: rancher
+
+- name: Wait 5 minutes for Rancher to be ready
+  wait_for:
+    timeout: 300
+  delegate_to: localhost
+  when: rancher.changed
+  tags: rancher

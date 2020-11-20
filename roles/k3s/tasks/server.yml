@@ -1,0 +1,16 @@
+---
+- name: Install k3s as server
+  shell: sh /tmp/k3s-installer.sh
+  become: yes
+  tags: server
+
+- name: Get k3s server token
+  shell: cat /var/lib/rancher/k3s/server/node-token
+  become: yes
+  register: k3s_token
+  tags: server
+
+- name: Display k3s server token
+  debug:
+    msg: "{{ k3s_token.stdout }}"
+  tags: server

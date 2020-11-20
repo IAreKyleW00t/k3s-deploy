@@ -1,0 +1,4 @@
+---
+k3s_mode: server
+k3s_server_url: ''
+k3s_server_token: ''

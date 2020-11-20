@@ -1,0 +1,5 @@
+---
+certmanager_namespace: cert-manager
+certmanager_version: v1.0.4
+certmanager_email: admin@example.com
+certmanager_ingress_class: traefik

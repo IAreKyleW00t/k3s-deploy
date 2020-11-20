@@ -1,0 +1,17 @@
+---
+- name: Install/Update Helm
+  snap:
+    name: helm
+    state: present
+    classic: yes
+  become: yes
+  tags: helm
+
+- name: Install additional Helm repositories
+  community.kubernetes.helm_repository:
+    name: "{{ item.name }}"
+    repo_url: "{{ item.repo_url }}"
+  with_items: "{{ additional_helm_repos }}"
+  when: additional_helm_repos | length
+  become: yes
+  tags: helm
